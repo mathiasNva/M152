@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="styles/css/bootstrap.css" rel="stylesheet">
     <link href="styles/css/facebook.css" rel="stylesheet">
+    
+     
 </head>
 
 <body>
@@ -62,13 +64,13 @@
 
                     <div class="row">
                         <div class="well">
-                            <form class="form-horizontal" role="form">
+                            <form class="form-horizontal" role="form" action="uploadFile.php" method="post" enctype="multipart/form-data">
                                 <h4>Faire un post</h4>
                                 <div class="form-group" style="padding:14px;">
                                     <textarea class="form-control" placeholder="Ajouter du text"></textarea>
                                 </div>
-                                <input type="file" class="btn btn-primary" name="fileToUpload[]" multiple accept="image/jpg, image/jpeg, image/png, image/PNG, image/JPG">
-                                <button class="btn btn-primary" type="button"> Post</button>
+                                <input type="file" class="btn btn-primary" name="filesToUpload[]" multiple accept="image/jpg, image/jpeg, image/png, image/PNG, image/JPG">
+                                <input type="submit" name="submit" class="btn btn-primary" value="Post">
                             </form>
                         </div>
                     </div>
