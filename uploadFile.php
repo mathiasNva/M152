@@ -1,17 +1,65 @@
 <?php
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-// Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
-  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-  if($check !== false) {
-    echo "File is an image - " . $check["mime"] . ".";
-    $uploadOk = 1;
-  } else {
-    echo "File is not an image.";
-    $uploadOk = 0;
-  }
+
+
+if (isset($_FILES['filesToUpload'])) {
+} else {
+    header('Location: index.php');
 }
+
+$extensions = array('.png', '.gif', '.jpg', '.jpeg');
+
+$maxSize = 70000000;
+$maxSizePerFile = 3000000;
+
+$filesSize = 0;
+$uploadOk = 1;
+$erreur = "";
+
+foreach ($_FILES['filesToUpload']['name'] as $file => $error) {
+
+    $singleFileSize = filesize($_FILES['filesToUpload']['tmp_name'][$file]);
+
+    if ($singleFileSize > $maxSizePerFile) {
+
+        $uploadOk = 0;
+        $erreur .= "Un des fichiers est trop gros.\n";
+    } else {
+
+        $filesSize += $singleFileSize;
+        $extension = strrchr($_FILES['filesToUpload']['tmp_name'][$file], '.');
+
+        if (!in_array($extension, $extensions)) {
+
+            $erreur .= "Uniquement des fichiers .png, .jpg, .jpeg ou .gif sont autorisés.\n";
+        } else {
+
+            if (!in_array($_FILES['filesToUpload']['tmp_name'][$file], $_FILES['filesToUpload']['tmp_name'])) {
+            } else {
+                $uploadOk = 0;
+                $erreur .= "Plusieurs fichiers ont des noms identiques.\n";
+            }
+        }
+    }
+
+    if ($_FILES['filesToUpload']['size'] > $maxSize) {
+
+        $erreur .= "L'ensemble des fichiers a une taille trop élevée\n";
+    }
+
+    if ($uploadOk == 1) {
+        if (isset($_FILES['filesToUpload'])) {
+            $folder = './assets/uploaded';
+            $file = basename($_FILES['filesToUpload']['name'][$file]);
+            if (move_uploaded_file($_FILES['filesToUpload']['tmp_name'][$file], $folder . $file)) {
+                echo 'Upload effectué avec succès !';
+            } else {
+                echo 'Echec de l\'upload !';
+            }
+        }
+    } 
+    else {
+        echo $erreur;
+    }
+}
+
 ?>
