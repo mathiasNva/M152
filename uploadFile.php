@@ -8,12 +8,12 @@ if (isset($_FILES['filesToUpload'])) {
 }
 
 // tableau qui stock les extensions des images
-$extensions = array('.png', '.gif', '.jpg', '.jpeg');
+$extensions = array('.png', '.gif', '.jpg', '.jpeg', '.mp4', '.m4v', '.mp3', '.ogg', '.mpeg');
 
 // taille max 
 define("MAXSIZEFILE", 70*1024*1024);
 // taille min
-define("MINSIZEFILE", 30*1024*1024);
+define("MAXSIZEPERFILE", 3*1024*1024);
 
 $totalFileSize = array_sum($_FILES['filesToUpload']['size']);
 
@@ -22,6 +22,8 @@ $uploadOk = 1;
 $erreur = "";
 $cpt = 0;
 $verifiedFiles = [];
+$commentaire = filter_input(INPUT_POST, 'commentaire', FILTER_SANITIZE_STRING);
+$postIsCreated = false;
 
 foreach ($_FILES['filesToUpload']['name'] as $file => $error) {
 
@@ -29,7 +31,7 @@ foreach ($_FILES['filesToUpload']['name'] as $file => $error) {
 
     // Verification 
     // Si la taille d'un seul fichier est supérieur à la taille max alors il affiche un message d'erreur
-    if ($singleFileSize > $maxSizePerFile) {
+    if ($singleFileSize > MAXSIZEPERFILE) {
         $uploadOk = 0;
         $erreur .= "Le fichier est trop gros \n";
     } else {
@@ -42,7 +44,7 @@ foreach ($_FILES['filesToUpload']['name'] as $file => $error) {
         if (!in_array($extension, $extensions)) {
 
             $uploadOk = 0;
-            $erreur .= "Uniquement des fichiers .png, .jpg, .jpeg ou .gif sont autorisés ! \n";
+            $erreur .= "Uniquement des fichiers .png, .jpg, .jpeg, .mp4, .m4v, .mp3, .ogg sont autorisés ! \n";
 
         } else {
 
@@ -60,7 +62,7 @@ foreach ($_FILES['filesToUpload']['name'] as $file => $error) {
         }
     }
 
-    if ($totalFileSize > $maxSize) {
+    if ($totalFileSize > MAXSIZEFILE) {
 
         $uploadOk = 0;
         $erreur .= "Vos fichiers sont trop gros ! \n";
@@ -69,19 +71,21 @@ foreach ($_FILES['filesToUpload']['name'] as $file => $error) {
 
     // Upload 
     if ($uploadOk == 1) {
-
         if (isset($_FILES['filesToUpload'])) {
-
-            $upload_folder = "./media/img/updatesImages/";
-            $file_location = $_FILES["filesToUpload"]["name"][$file];
+            $upload_folder = "./media/img/upload/";
+            $file_location =  uniqid() . $_FILES["filesToUpload"]["name"][$file];    
 
             // Deplace l'upload dans media/img
             if (move_uploaded_file($_FILES['filesToUpload']['tmp_name'][$file], $upload_folder.$file_location)) {
-
-                echo 'L\'upload à été effectué avec succès !';
-                bddImage($_FILES['filesToUpload']['type'][$file], $_FILES['filesToUpload']['name'][$file]);
+                if(!$postIsCreated){
+                    $idPost = createPost($commentaire, date("Y-m-d H:i:s"));
+                    $postIsCreated = true;
+                }
+                bddImage($_FILES['filesToUpload']['type'][$file] , $file_location,date("Y-m-d H:i:s"),$idPost);
+                header('Location: index.php');
 
             } else {
+                // var_dump($_FILES['filesToUpload']['tmp_name'][$file], $upload_folder.$file_location);
                 echo 'Un problème est survenu lors de l\'upload !';
 
             }
@@ -93,5 +97,4 @@ foreach ($_FILES['filesToUpload']['name'] as $file => $error) {
     }
 
 }
-
 ?>

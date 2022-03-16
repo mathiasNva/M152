@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+require('bdd.php');
 
+?>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -29,7 +32,7 @@
                 <nav class="collapse navbar-collapse" role="navigation">
                     <form class="navbar-form navbar-left">
                         <div class="input-group input-group-sm" style="max-width:360px;">
-                            <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+                            <input name="" class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
                             <div class="input-group-btn">
                                 <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             </div>
@@ -91,15 +94,14 @@
                         </div>
 
                         <div class="col-sm-7">
-
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h2>Welcome</h2>
                                 </div>
                             </div>
+                            <?php echo PostAndMediaToCarousel(); ?>
 
                             <div class="panel panel-default">
-                                <div class="panel-thumbnail"><img src="media/img/bg_4.jpg" class="img-responsive"></div>
                                 <div class="panel-body">
                                     <p class="lead">Social Good</p>
                                     <p>1,200 Followers, 83 Posts</p>
@@ -128,6 +130,20 @@
                 </div>
             </div>
             <hr>
+            <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('[data-toggle=offcanvas]').click(function() {
+			$(this).toggleClass('visible-xs text-center');
+			$(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
+			$('.row-offcanvas').toggleClass('active');
+			$('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
+			$('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
+			$('#btnShow').toggle();
+		});
+	});
+</script>
 
 </body>
 

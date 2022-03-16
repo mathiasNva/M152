@@ -67,9 +67,9 @@
                             <form class="form-horizontal" role="form" action="uploadFile.php" method="post" enctype="multipart/form-data">
                                 <h4>Faire un post</h4>
                                 <div class="form-group" style="padding:14px;">
-                                    <textarea class="form-control" placeholder="Ajouter du text"></textarea>
+                                    <textarea id="commentaire" name="commentaire" class="form-control" placeholder="Ajouter du text"></textarea>
                                 </div>
-                                <input type="file" class="btn btn-primary" name="filesToUpload[]" multiple accept="image/jpg, image/jpeg, image/png, image/PNG, image/JPG">
+                                <input type="file" class="btn btn-primary" name="filesToUpload[]" multiple accept="image/jpg, image/jpeg, image/png, image/PNG, image/JPG, video/vmp4, video/m4v, video/*, audio/mp3, audio/ogg, audio/*, audio/mpeg">
                                 <input type="submit" name="submit" class="btn btn-primary" value="Post">
                             </form>
                         </div>
