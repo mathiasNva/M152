@@ -305,6 +305,8 @@ function PostAndMediaToCarousel()
 
             if ($readMediasPost[$e]["typeMedia"] == "image/png" || $readMediasPost[$e]["typeMedia"] == "image/jpg" || $readMediasPost[$e]["typeMedia"] == "image/jpeg" || $readMediasPost[$e]["typeMedia"] == "image/gif" || $readMediasPost[$e]["typeMedia"] == "image/jpg"){
                 $html .= "<img src=\"media/img/upload/" . $readMediasPost[$e]["nomMedia"] . "\" alt=\"" . $readMediasPost[$e]["nomMedia"] . "\">";
+                $html .= "<button>Delete</button>";
+                $html .= "<button>Modification</button>";
                 $html .= "</div>";
             }
 
@@ -312,6 +314,8 @@ function PostAndMediaToCarousel()
                 $html .= "\n <video width=\"100%\" height=\"100%\" controls autoplay loop muted >";
                 $html .= "\n <source src=\"media/img/upload/" . $readMediasPost[$e]["nomMedia"] . "\" type=\"video/mp4\">";
                 $html .= "\n </video>";
+                $html .= "<button>Delete</button>";
+                $html .= "<button>Modification</button>";
                 $html .= "\n </div>";
             }             
 
@@ -319,6 +323,8 @@ function PostAndMediaToCarousel()
                 $html .= "\n <audio controls>";
                 $html .= "\n <source src=\"media/img/upload/" . $readMediasPost[$e]["nomMedia"] . "\">";
                 $html .= "\n </audio>";
+                $html .= "<button>Delete</button>";
+                $html .= "<button>Modification</button>";
                 $html .= "\n </div>";
             }
         }
